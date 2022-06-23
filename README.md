@@ -10,15 +10,18 @@ Agents:
 
 ![Pleb Image](/BehaviourArises/readme/pleb.png?raw=true "Pleb")
 1. Pleb
-The pleb is an unarmored companion of the knight. 
-They will charge towards the player on sight. 
-While patrolling, they will always walk in front of the knight.
+The pleb is an unarmored enemy with a short sword.
+They will patrol an area until they see an enemy upon which combat ensues.
+They will charge towards the player on sight.
 
 2. Knight
-The knight is an armored enemy. 
+The knight is an armored enemy with sword and shield. 
 They will patrol an area until they see an enemy upon which combat ensues.
-While the plebs are still alive, they will keep their distance with their guard up.
-If they are a certain distance from the player, they will use their crossbow.
-If the plebs died, they will head towards the player to engage close combat.
+They will head towards the player to engage close combat.
 
-3. Bird
+3. Crossbowman
+The crossbow knight is an armored enemy with sword, shield and crossbow.
+They will patrol an area until they see an enemy upon which combat ensues.
+They will keep their distance.
+If they are a certain distance from the player, they will use their crossbow.
+If the player is close enough, they will switch to sword and shield.
