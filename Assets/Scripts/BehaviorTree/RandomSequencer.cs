@@ -6,5 +6,8 @@ namespace BehaviorArises.BehaviorTree
 {
     public class RandomSequencer : Node
     {
+    	override public NS Tick(){
+    		return NS.Failure;
+    	}
     }
 }
