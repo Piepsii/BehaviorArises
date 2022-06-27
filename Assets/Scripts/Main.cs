@@ -7,6 +7,9 @@ namespace BehaviorArises{
 
     public class Main : MonoBehaviour {
 
+        public int senseDecideFrequency = 10;
+        private int senseDecideCounter = 0;
+
         public int plebAmount;
         public int knightAmount;
         public int crossbowmanAmount;
@@ -40,6 +43,17 @@ namespace BehaviorArises{
         }   
 
         private void Update(){
+            senseDecideCounter++;
+            if(senseDecideCounter == senseDecideFrequency)
+            {
+                senseDecideCounter = 0;
+                foreach (Pleb pleb in plebs)
+                {
+                    pleb.Sense();
+                    pleb.Decide();
+                }
+            }
+
             float deltaTime = Time.deltaTime;
             foreach(Pleb pleb in plebs){
                 pleb.Tick(deltaTime);

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6090630082138876944}
   - component: {fileID: 6090630082138876947}
   - component: {fileID: 6090630082138876946}
+  - component: {fileID: 7663392553111935476}
   m_Layer: 0
   m_Name: Pleb
   m_TagString: Untagged
@@ -98,3 +99,18 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7663392553111935476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6090630082138876949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f37f56fb15771248ba972ccc8f7c8296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  combatRange: 5
+  patrolMaterial: {fileID: 2100000, guid: 7456ea35e05acb44b90c3e00d371705e, type: 2}
+  combatMaterial: {fileID: 2100000, guid: 188b05d4b02b6563ca5383310dee64de, type: 2}

@@ -1402,6 +1402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f298eef57abf87aad9162612251a1854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  senseDecideFrequency: 10
   plebAmount: 1
   knightAmount: 0
   crossbowmanAmount: 0

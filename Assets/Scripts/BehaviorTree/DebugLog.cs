@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace BehaviorArises.BehaviorTree
 {
-    public class DebugLog : Node {
+    public class DebugLog : Node 
+    {
 
         string logMessage;
 
