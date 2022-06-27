@@ -6,21 +6,22 @@ namespace BehaviorArises.BehaviorTree
 {
     public class Sequencer : Node
     {
+        public List<Node> children;
+
         public Sequencer(List<Node> children) 
         {
             this.children = children;
         }
 
-        public override NS Tick()
+        public override NodeState Tick(float deltaTime)
         {
             foreach(Node n in children)
             {
-                NS ret = n.Tick();
-                if (ret == NS.Failure 
-                    || ret == NS.Running)
-                    return ret;
+                NodeState result = n.Tick(deltaTime);
+                if (result == NodeState.Running || result == NodeState.Failure)
+                    return result;
             }
-            return NS.Success;
+            return NodeState.Success;
         }
     }
 }

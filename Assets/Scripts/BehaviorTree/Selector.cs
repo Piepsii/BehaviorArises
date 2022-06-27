@@ -6,21 +6,22 @@ namespace BehaviorArises.BehaviorTree
 {
     public class Selector : Node
     {
+        public List<Node> children;
+
         public Selector(List<Node> children)
         {
             this.children = children;
         }
 
-        public override NS Tick()
+        public override NodeState Tick(float deltaTime)
         {
             foreach (Node n in children)
             {
-                NS ret = n.Tick();
-                if (ret == NS.Running
-                    || ret == NS.Success)
-                    return ret;
+                NodeState result = n.Tick(deltaTime);
+                if (result == NodeState.Running || result == NodeState.Success)
+                    return result;
             }
-            return NS.Failure;
+            return NodeState.Failure;
         }
 
     }

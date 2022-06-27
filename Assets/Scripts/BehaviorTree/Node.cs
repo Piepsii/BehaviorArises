@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BehaviorArises.BehaviorTree
 { 
-    public enum NS
+    public enum NodeState
     {
         Failure,
         Success,
@@ -13,8 +13,7 @@ namespace BehaviorArises.BehaviorTree
 
     public abstract class Node
     {
-        public abstract NS Tick();
-        public List<Node> children;
+        public abstract NodeState Tick(float deltaTime);
     }
 
 }
