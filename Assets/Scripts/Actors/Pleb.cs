@@ -26,39 +26,48 @@ namespace BehaviorArises.Actors
         public void Build(){
             blackboard = new Dictionary<string, GameObject>();
             blackboard.Add("gameObject", gameObject);
-            blackboard.Add("playerGO", null);
+            blackboard.Add("player", null);
             agent = GetComponent<NavMeshAgent>();
             path = GetComponent<Path>();
 
+            // Patrol Behavior Tree
+
             SetMaterial setPatrolMaterial = new SetMaterial(blackboard, patrolMaterial);
-            SetMaterial setCombatMaterial = new SetMaterial(blackboard, combatMaterial);
-            SetDestination setDestination = new SetDestination(blackboard);
+            GotoNextWaypoint setDestination = new GotoNextWaypoint(blackboard);
             IsNearWaypoint isNearWaypoint = new IsNearWaypoint(blackboard, 2f);
             //SetBlackboardEntry setNextWaypoint = new SetBlackboardEntry(blackboard, "waypoint", waypoint1.gameObject);
             SetNextWaypointActive setNextWaypointActive = new SetNextWaypointActive(blackboard);
             DebugLog debugLogPatrol = new DebugLog("I am patrolling!");
-            DebugLog debugLogCombat = new DebugLog("I am in combat!");
             Sequencer materialLogAndGoToWaypoint = new Sequencer(new List<Node> { setPatrolMaterial, debugLogPatrol, setDestination });
-            Sequencer combatRoot = new Sequencer(new List<Node> { setCombatMaterial, debugLogCombat });
             Sequencer setWaypointAtArrival = new Sequencer(new List<Node> { isNearWaypoint, setNextWaypointActive });
             Selector patrolRoot = new Selector(new List<Node> { setWaypointAtArrival, materialLogAndGoToWaypoint });
             patrolTree = patrolRoot;
+
+            // !Patrol Behavior Tree
+
+            // Combat Behavior Tree
+
+            SetMaterial setCombatMaterial = new SetMaterial(blackboard, combatMaterial);
+            DebugLog debugLogCombat = new DebugLog("I am in combat!");
+            GotoPlayer gotoPlayer = new GotoPlayer(blackboard);
+            Sequencer combatRoot = new Sequencer(new List<Node> { setCombatMaterial, debugLogCombat, gotoPlayer });
             meleeCombatTree = combatRoot;
 
+            // !Combat Behavior Tree
         }
 
         public void Sense()
         {
             var playerGO = GameObject.FindWithTag("Player");
-            if (blackboard.ContainsKey("playerGO"))
+            if (blackboard.ContainsKey("player"))
             {
-                blackboard["playerGO"] = playerGO;
+                blackboard["player"] = playerGO;
             }
         }
 
         public void Decide()
         {
-            var distanceVector = blackboard["playerGO"].transform.position - transform.position;
+            var distanceVector = blackboard["player"].transform.position - transform.position;
             var distance = distanceVector.magnitude;
             if (distance < combatRange)
             {

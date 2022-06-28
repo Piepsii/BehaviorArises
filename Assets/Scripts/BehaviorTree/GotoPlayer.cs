@@ -4,41 +4,41 @@ using UnityEngine.AI;
 
 namespace BehaviorArises.BehaviorTree
 {
-    public class SetDestination : Node
+    public class GotoPlayer : Node
     {
         private float leeway = 2f;
         private float distance;
-        private Vector3 waypoint;
+        private Vector3 playerPosition;
         private Transform actor;
         private NavMeshAgent agent;
         private Dictionary<string, GameObject> blackboard;
 
-        public SetDestination(Dictionary<string, GameObject> blackboard)
+        public GotoPlayer(Dictionary<string, GameObject> blackboard)
         {
             this.blackboard = blackboard;
             var gameObject = blackboard["gameObject"];
             actor = gameObject.transform;
             agent = gameObject.GetComponent<NavMeshAgent>();
         }
-        
+
         public override NodeState Tick(float deltaTime)
         {
-            waypoint = blackboard["gameObject"].GetComponent<Path>().GetActiveWaypoint().position;
-            var distanceVec = waypoint - actor.position;
+            playerPosition = blackboard["player"].transform.position;
+            var distanceVec = playerPosition - actor.position;
             distance = distanceVec.magnitude;
-            agent.SetDestination(waypoint);
-            if (Vector3.Distance(agent.pathEndPosition, waypoint) >= 1f)
+            agent.SetDestination(playerPosition);
+            if (Vector3.Distance(agent.pathEndPosition, playerPosition) >= 1f)
             {
                 return NodeState.Failure;
             }
-            else if(distance <= leeway)
+            else if (distance <= leeway)
             {
                 return NodeState.Success;
             }
             else
             {
-                if(agent.destination != waypoint)
-                    agent.SetDestination(waypoint);
+                if (agent.destination != playerPosition)
+                    agent.SetDestination(playerPosition);
                 return NodeState.Running;
             }
         }
