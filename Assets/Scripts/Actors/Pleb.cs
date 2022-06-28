@@ -17,14 +17,16 @@ namespace BehaviorArises.Actors
         public Material patrolMaterial;
         public Material combatMaterial;
 
-        private int stepsSinceLastSeenPlayer = 300;
         private Path path;
         private Camera cam;
         private PlebState state;
         private NavMeshAgent agent;
+        private ParticleSystem pSystem;
         private Node patrolTree, meleeCombatTree;
-        private Dictionary<string, GameObject> blackboard;
+        private int stepsSinceLastSeenPlayer = 300;
+        private int cooldownInSteps = 60;
         private Dictionary<string, int> blackboardInt;
+        private Dictionary<string, GameObject> blackboard;
 
         public void Build(){
             blackboard = new Dictionary<string, GameObject>();
@@ -35,6 +37,7 @@ namespace BehaviorArises.Actors
             agent = GetComponent<NavMeshAgent>();
             path = GetComponent<Path>();
             cam = GetComponent<Camera>();
+            pSystem = GetComponent<ParticleSystem>();
 
             // Patrol Behavior Tree
 
@@ -52,11 +55,12 @@ namespace BehaviorArises.Actors
             // !Patrol Behavior Tree
 
             // Combat Behavior Tree
-
+            TurnTowardsObject turnTowardsPlayer = new TurnTowardsObject(blackboard, "player", 0.5f, 30f);
+            Attack attack = new Attack(pSystem, cooldownInSteps);
             SetMaterial setCombatMaterial = new SetMaterial(blackboard, combatMaterial);
             DebugLog debugLogCombat = new DebugLog("I am in combat!");
             GotoPlayer gotoPlayer = new GotoPlayer(blackboard);
-            Sequencer combatRoot = new Sequencer(new List<Node> { setCombatMaterial, debugLogCombat, gotoPlayer });
+            Sequencer combatRoot = new Sequencer(new List<Node> { setCombatMaterial, debugLogCombat, gotoPlayer, turnTowardsPlayer, attack });
             meleeCombatTree = combatRoot;
 
             // !Combat Behavior Tree

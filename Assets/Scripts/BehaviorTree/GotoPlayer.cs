@@ -6,7 +6,7 @@ namespace BehaviorArises.BehaviorTree
 {
     public class GotoPlayer : Node
     {
-        private float leeway = 2f;
+        private float leeway = 5f;
         private float distance;
         private Vector3 playerPosition;
         private Transform actor;
@@ -33,6 +33,7 @@ namespace BehaviorArises.BehaviorTree
             }
             else if (distance <= leeway)
             {
+                agent.ResetPath();
                 return NodeState.Success;
             }
             else
