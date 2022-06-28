@@ -17,18 +17,24 @@ namespace BehaviorArises.Actors
         public Material patrolMaterial;
         public Material combatMaterial;
 
+        private int stepsSinceLastSeenPlayer = 300;
         private Path path;
+        private Camera cam;
         private PlebState state;
         private NavMeshAgent agent;
         private Node patrolTree, meleeCombatTree;
         private Dictionary<string, GameObject> blackboard;
+        private Dictionary<string, int> blackboardInt;
 
         public void Build(){
             blackboard = new Dictionary<string, GameObject>();
             blackboard.Add("gameObject", gameObject);
             blackboard.Add("player", null);
+            blackboardInt = new Dictionary<string, int>();
+            blackboardInt.Add("stepsSinceLastSeenPlayer", 0);
             agent = GetComponent<NavMeshAgent>();
             path = GetComponent<Path>();
+            cam = GetComponent<Camera>();
 
             // Patrol Behavior Tree
 
@@ -63,13 +69,24 @@ namespace BehaviorArises.Actors
             {
                 blackboard["player"] = playerGO;
             }
+
+            var playerCollider = playerGO.GetComponent<Collider>();
+            Plane[] planes;
+            planes = GeometryUtility.CalculateFrustumPlanes(cam);
+            if (GeometryUtility.TestPlanesAABB(planes, playerCollider.bounds) )
+            // && !Physics.Linecast(transform.position, playerGO.transform.position, ~LayerMask.NameToLayer("Enemy"))
+            {
+                stepsSinceLastSeenPlayer = 0;
+            }
+            else
+            {
+                stepsSinceLastSeenPlayer++;
+            }
         }
 
         public void Decide()
         {
-            var distanceVector = blackboard["player"].transform.position - transform.position;
-            var distance = distanceVector.magnitude;
-            if (distance < combatRange)
+            if (stepsSinceLastSeenPlayer < 100)
             {
                 state = PlebState.MeleeCombat;
             }
@@ -80,6 +97,7 @@ namespace BehaviorArises.Actors
         }
 
         public void Tick(float deltaTime){
+
             switch (state)
             {
                 case PlebState.Patrol:
