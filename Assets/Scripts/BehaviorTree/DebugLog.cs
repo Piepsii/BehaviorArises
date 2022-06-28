@@ -6,7 +6,6 @@ namespace BehaviorArises.BehaviorTree
 {
     public class DebugLog : Node 
     {
-
         string logMessage;
 
         public DebugLog(string logMessage){

@@ -7,6 +7,8 @@ namespace BehaviorArises{
 
     public class Main : MonoBehaviour {
 
+        public List<Transform> waypoints;
+
         public int senseDecideFrequency = 10;
         private int senseDecideCounter = 0;
 
@@ -37,6 +39,11 @@ namespace BehaviorArises{
                 if(!instantiatedPleb.TryGetComponent<Pleb>(out pleb)){
                     pleb = instantiatedPleb.AddComponent<Pleb>();
                 }
+                Path path;
+                if(!instantiatedPleb.TryGetComponent<Path>(out path)){
+                    path = instantiatedPleb.AddComponent<Path>();
+                }
+                path.waypoints = waypoints;
                 pleb.Build();
                 plebs.Add(pleb);
             }
