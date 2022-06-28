@@ -1323,6 +1323,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Orbit Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 4101663092677841921, guid: 2f73819824150da51aed5004262ef6f8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4101663092677841925, guid: 2f73819824150da51aed5004262ef6f8, type: 3}
       propertyPath: focus
       value: 
@@ -1389,7 +1393,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &657151688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1402,10 +1406,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f298eef57abf87aad9162612251a1854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypoint1: {fileID: 1641445522}
-  waypoint2: {fileID: 1645384117}
+  waypoints:
+  - {fileID: 1641445522}
+  - {fileID: 1645384117}
+  - {fileID: 882622808}
   senseDecideFrequency: 10
-  plebAmount: 1
+  plebAmount: 3
   knightAmount: 0
   crossbowmanAmount: 0
   plebSpawnpoint: {fileID: 276016870}
@@ -1428,6 +1434,7 @@ Transform:
   m_Children:
   - {fileID: 1641445522}
   - {fileID: 1645384117}
+  - {fileID: 882622808}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1740,6 +1747,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 21
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &882622807
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 882622808}
+  m_Layer: 0
+  m_Name: Waypoint_3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &882622808
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 882622807}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -15.51, y: -2, z: 2.93}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 657151689}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &948389031
 GameObject:
@@ -2227,7 +2265,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-12994
+  m_Name: pb_Mesh20296
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3835,7 +3873,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1641445522}
   m_Layer: 0
-  m_Name: Waypoint1
+  m_Name: Waypoint_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3866,7 +3904,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1645384117}
   m_Layer: 0
-  m_Name: Waypoint2
+  m_Name: Waypoint_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4837,7 +4875,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6090630082138876945, guid: 36c6d6ec28876ed5fb015225716b6a55, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -11.189995
+      value: -8.25
       objectReference: {fileID: 0}
     - target: {fileID: 6090630082138876945, guid: 36c6d6ec28876ed5fb015225716b6a55, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4871,5 +4909,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pleb
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 937520238192101712, guid: 36c6d6ec28876ed5fb015225716b6a55, type: 3}
+    - {fileID: 8146399759609033679, guid: 36c6d6ec28876ed5fb015225716b6a55, type: 3}
+    - {fileID: 7663392553111935476, guid: 36c6d6ec28876ed5fb015225716b6a55, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 36c6d6ec28876ed5fb015225716b6a55, type: 3}
