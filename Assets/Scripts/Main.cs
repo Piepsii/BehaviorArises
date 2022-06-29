@@ -56,13 +56,18 @@ namespace BehaviorArises{
                 senseDecideCounter = 0;
                 foreach (Pleb pleb in plebs)
                 {
+                    if (pleb == null)
+                        continue;
                     pleb.Sense();
                     pleb.Decide();
                 }
             }
 
             float deltaTime = Time.deltaTime;
-            foreach(Pleb pleb in plebs){
+            foreach(Pleb pleb in plebs)
+            {
+                if (pleb == null)
+                    continue;
                 pleb.Tick(deltaTime);
             }
         }     

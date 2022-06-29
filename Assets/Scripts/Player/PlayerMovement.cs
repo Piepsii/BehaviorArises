@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SphereMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [SerializeField, Range(1f, 100f)]
     float maxSpeed = 10f;
