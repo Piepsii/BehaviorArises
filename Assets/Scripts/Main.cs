@@ -36,16 +36,34 @@ namespace BehaviorArises{
             for(int i = 0; i < plebAmount; i++){
                 var instantiatedPleb = Instantiate(plebPrefab, plebSpawnpoint);
                 Pleb pleb;
-                if(!instantiatedPleb.TryGetComponent<Pleb>(out pleb)){
+                if(!instantiatedPleb.TryGetComponent(out pleb)){
                     pleb = instantiatedPleb.AddComponent<Pleb>();
                 }
                 Path path;
-                if(!instantiatedPleb.TryGetComponent<Path>(out path)){
+                if(!instantiatedPleb.TryGetComponent(out path)){
                     path = instantiatedPleb.AddComponent<Path>();
                 }
                 path.waypoints = waypoints;
                 pleb.Build();
                 plebs.Add(pleb);
+            }
+
+            for(int i = 0; i < knightAmount; i++)
+            {
+                var instantiatedKnight = Instantiate(knightPrefab, knightSpawnpoint);
+                Knight knight;
+                if(!instantiatedKnight.TryGetComponent(out knight))
+                {
+                    knight = instantiatedKnight.AddComponent<Knight>();
+                }
+                Path path;
+                if(!instantiatedKnight.TryGetComponent(out path))
+                {
+                    path = instantiatedKnight.AddComponent<Path>();
+                }
+                path.waypoints = waypoints;
+                knight.Build();
+                knights.Add(knight);
             }
         }   
 
@@ -61,6 +79,13 @@ namespace BehaviorArises{
                     pleb.Sense();
                     pleb.Decide();
                 }
+                foreach(Knight knight in knights)
+                {
+                    if (knight == null)
+                        continue;
+                    knight.Sense();
+                    knight.Decide();
+                }
             }
 
             float deltaTime = Time.deltaTime;
@@ -69,6 +94,12 @@ namespace BehaviorArises{
                 if (pleb == null)
                     continue;
                 pleb.Tick(deltaTime);
+            }
+            foreach(Knight knight in knights)
+            {
+                if (knight == null)
+                    continue;
+                knight.Tick(deltaTime);
             }
         }     
     }

@@ -5,16 +5,16 @@ namespace BehaviorArises.BehaviorTree
 {
     public class SetNextWaypointActive : Node
     {
-        private Dictionary<string, GameObject> blackboard;
+        private Path path;
 
-        public SetNextWaypointActive(Dictionary<string, GameObject> blackboard)
+        public SetNextWaypointActive(Path path)
         {
-            this.blackboard = blackboard;
+            this.path = path;
         }
 
         public override NodeState Tick(float deltaTime)
         {
-            blackboard["gameObject"].GetComponent<Path>().SetNextWaypointActive();
+            path.SetNextWaypointActive();
             return NodeState.Success;
         }
     }

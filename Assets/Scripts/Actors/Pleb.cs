@@ -13,7 +13,6 @@ namespace BehaviorArises.Actors
 
     public class Pleb : MonoBehaviour{
 
-        public float combatRange = 5f;
         public Material patrolMaterial;
         public Material combatMaterial;
 
@@ -45,9 +44,8 @@ namespace BehaviorArises.Actors
             GotoNextWaypoint setDestination = new GotoNextWaypoint(blackboard);
             IsNearWaypoint isNearWaypoint = new IsNearWaypoint(blackboard, 2f);
             //SetBlackboardEntry setNextWaypoint = new SetBlackboardEntry(blackboard, "waypoint", waypoint1.gameObject);
-            SetNextWaypointActive setNextWaypointActive = new SetNextWaypointActive(blackboard);
-            DebugLog debugLogPatrol = new DebugLog("I am patrolling!");
-            Sequencer materialLogAndGoToWaypoint = new Sequencer(new List<Node> { setPatrolMaterial, debugLogPatrol, setDestination });
+            SetNextWaypointActive setNextWaypointActive = new SetNextWaypointActive(path);
+            Sequencer materialLogAndGoToWaypoint = new Sequencer(new List<Node> { setPatrolMaterial, setDestination });
             Sequencer setWaypointAtArrival = new Sequencer(new List<Node> { isNearWaypoint, setNextWaypointActive });
             Selector patrolRoot = new Selector(new List<Node> { setWaypointAtArrival, materialLogAndGoToWaypoint });
             patrolTree = patrolRoot;
@@ -58,9 +56,8 @@ namespace BehaviorArises.Actors
             TurnTowardsObject turnTowardsPlayer = new TurnTowardsObject(blackboard, "player", 0.5f, 30f);
             Attack attack = new Attack(pSystem, cooldownInSteps);
             SetMaterial setCombatMaterial = new SetMaterial(blackboard, combatMaterial);
-            DebugLog debugLogCombat = new DebugLog("I am in combat!");
             GotoPlayer gotoPlayer = new GotoPlayer(blackboard);
-            Sequencer combatRoot = new Sequencer(new List<Node> { setCombatMaterial, debugLogCombat, gotoPlayer, turnTowardsPlayer, attack });
+            Sequencer combatRoot = new Sequencer(new List<Node> { setCombatMaterial, gotoPlayer, turnTowardsPlayer, attack });
             meleeCombatTree = combatRoot;
 
             // !Combat Behavior Tree
