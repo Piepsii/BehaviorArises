@@ -70,6 +70,24 @@ namespace BehaviorArises{
                 knight.Build(plebGOs);
                 knights.Add(knight);
             }
+
+            for(int i = 0; i < crossbowmanAmount; i++)
+            {
+                var instantiatedCrossbowman = Instantiate(crossbowmanPrefab, crossbowmanSpawnpoint);
+                Crossbowman crossbowman;
+                if(!instantiatedCrossbowman.TryGetComponent(out crossbowman))
+                {
+                    crossbowman = instantiatedCrossbowman.AddComponent<Crossbowman>();
+                }
+                Path path;
+                if(!instantiatedCrossbowman.TryGetComponent(out path))
+                {
+                    path = instantiatedCrossbowman.AddComponent<Path>();
+                }
+                path.waypoints = waypoints;
+                crossbowman.Build();
+                crossbowmen.Add(crossbowman);
+            }
         }   
 
         private void Update(){

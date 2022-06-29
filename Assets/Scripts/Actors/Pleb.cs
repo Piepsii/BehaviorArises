@@ -15,6 +15,7 @@ namespace BehaviorArises.Actors
 
         public Material patrolMaterial;
         public Material combatMaterial;
+        public float gotoPlayerLeeway = 2f;
 
         private Path path;
         private Camera cam;
@@ -56,7 +57,7 @@ namespace BehaviorArises.Actors
             TurnTowardsObject turnTowardsPlayer = new TurnTowardsObject(blackboard, "player", 0.8f, 20f);
             Attack attack = new Attack(pSystem, cooldownInSteps);
             SetMaterial setCombatMaterial = new SetMaterial(blackboard, combatMaterial);
-            GotoPlayer gotoPlayer = new GotoPlayer(blackboard);
+            GotoPlayer gotoPlayer = new GotoPlayer(blackboard, gotoPlayerLeeway);
             Sequencer combatRoot = new Sequencer(new List<Node> { setCombatMaterial, gotoPlayer, turnTowardsPlayer, attack });
             meleeCombatTree = combatRoot;
 

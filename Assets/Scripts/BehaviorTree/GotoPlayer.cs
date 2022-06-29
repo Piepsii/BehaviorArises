@@ -6,16 +6,17 @@ namespace BehaviorArises.BehaviorTree
 {
     public class GotoPlayer : Node
     {
-        private float leeway = 5f;
+        private float leeway;
         private float distance;
         private Vector3 playerPos;
         private Transform actor;
         private NavMeshAgent agent;
         private Dictionary<string, GameObject> blackboard;
 
-        public GotoPlayer(Dictionary<string, GameObject> blackboard)
+        public GotoPlayer(Dictionary<string, GameObject> blackboard, float leeway = 5f)
         {
             this.blackboard = blackboard;
+            this.leeway = leeway;
             var gameObject = blackboard["gameObject"];
             actor = gameObject.transform;
             agent = gameObject.GetComponent<NavMeshAgent>();
