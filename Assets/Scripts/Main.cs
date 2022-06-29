@@ -102,12 +102,19 @@ namespace BehaviorArises{
                     pleb.Sense();
                     pleb.Decide();
                 }
-                foreach(Knight knight in knights)
+                foreach (Knight knight in knights)
                 {
                     if (knight == null)
                         continue;
                     knight.Sense();
                     knight.Decide();
+                }
+                foreach (Crossbowman crossbowman in crossbowmen)
+                {
+                    if (crossbowman == null)
+                        continue;
+                    crossbowman.Sense();
+                    crossbowman.Decide();
                 }
             }
 
@@ -123,6 +130,12 @@ namespace BehaviorArises{
                 if (knight == null)
                     continue;
                 knight.Tick(deltaTime);
+            }
+            foreach(Crossbowman crossbowman in crossbowmen)
+            {
+                if (crossbowman == null)
+                    continue;
+                crossbowman.Tick(deltaTime);
             }
         }     
     }

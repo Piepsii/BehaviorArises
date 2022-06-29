@@ -15,17 +15,18 @@ namespace BehaviorArises.Actors
     public class Crossbowman : MonoBehaviour
     {
 
+        [SerializeField] private ParticleSystem pSystemMelee, pSystemRanged;
         [SerializeField] private Material patrolMaterial, meleeMaterial, rangedMaterial;
-        [SerializeField] private float stayNearPlayerRange = 2f;
+        [SerializeField] private float rangedCombatRange = 10f;
+        [SerializeField] private float meleeCombatRange = 5f;
+        [SerializeField] private int meleeCooldown = 180, rangedCooldown = 90;
 
         private int stepsSinceLastSeenPlayer = 1000;
-        private int cooldownInSteps = 90;
-        private Node patrolTree, meleeCombatTree;
+        private Node patrolTree, meleeCombatTree, rangedCombatTree;
         private CrossbowmanState state;
         private Path path;
         private Camera cam;
         private NavMeshAgent agent;
-        private ParticleSystem pSystem;
         private Dictionary<string, GameObject> blackboard;
         private Dictionary<string, int> blackboardInt;
 
@@ -39,7 +40,6 @@ namespace BehaviorArises.Actors
             agent = GetComponent<NavMeshAgent>();
             path = GetComponent<Path>();
             cam = GetComponent<Camera>();
-            pSystem = GetComponent<ParticleSystem>();
 
             // Patrol Behavior Tree
 
@@ -54,23 +54,31 @@ namespace BehaviorArises.Actors
 
             // !Patrol Behavior Tree
 
-            // Combat Behavior Tree
-            TurnTowardsObject turnTowardsPlayer = new TurnTowardsObject(blackboard, "player", 0.5f, 30f);
+            // Melee Combat Behavior Tree
 
-            StayNearObject stayNearPlayer = new StayNearObject(blackboard, "player", stayNearPlayerRange);
-            Sequencer stayAwaySequence = new Sequencer(new List<Node> { stayNearPlayer, turnTowardsPlayer });
+            TurnTowardsObject turnTowardsPlayerMelee = new TurnTowardsObject(blackboard, "player", 1.0f, 25f);
 
             GotoPlayer gotoPlayer = new GotoPlayer(blackboard);
-            Attack attack = new Attack(pSystem, cooldownInSteps);
-            Sequencer attackPlayerSequence = new Sequencer(new List<Node> { gotoPlayer, turnTowardsPlayer, attack });
+            Attack attack = new Attack(pSystemMelee, meleeCooldown);
+            Sequencer attackPlayerSequence = new Sequencer(new List<Node> { gotoPlayer, turnTowardsPlayerMelee, attack });
 
             SetMaterial setCombatMaterial = new SetMaterial(blackboard, meleeMaterial);
-            Selector stayAwayOrAttackSelector = new Selector(new List<Node> { stayAwaySequence, attackPlayerSequence });
 
-            Sequencer combatRoot = new Sequencer(new List<Node> { setCombatMaterial, stayAwayOrAttackSelector });
+            Sequencer combatRoot = new Sequencer(new List<Node> { setCombatMaterial, attackPlayerSequence });
             meleeCombatTree = combatRoot;
 
-            // !Combat Behavior Tree
+            // !Melee Combat Behavior Tree
+
+            // Ranged Combat Behavior Tree
+
+            SetMaterial setRangedCombatMaterial = new SetMaterial(blackboard, rangedMaterial);
+            StayNearObject stayAtRange = new StayNearObject(blackboard, "player", rangedCombatRange);
+            TurnTowardsObject turnTowardsPlayer = new TurnTowardsObject(blackboard, "player", 1.5f, 10f);
+            Attack rangedAttack = new Attack(pSystemRanged, rangedCooldown);
+            Sequencer rangedCombatRoot = new Sequencer(new List<Node> { setRangedCombatMaterial, stayAtRange, turnTowardsPlayer, rangedAttack });
+            rangedCombatTree = rangedCombatRoot;
+
+            // !Ranged Combat Behavior Tree
         }
 
         public void Sense()
@@ -93,13 +101,17 @@ namespace BehaviorArises.Actors
 
         public void Decide()
         {
-            if (stepsSinceLastSeenPlayer < 450)
+            state = CrossbowmanState.Patrol;
+
+            var player = blackboard["player"].transform;
+            var distanceToPlayer = (player.position - transform.position).magnitude;
+            if (stepsSinceLastSeenPlayer < 450 && distanceToPlayer < meleeCombatRange)
             {
                 state = CrossbowmanState.MeleeCombat;
             }
-            else
+            else if (stepsSinceLastSeenPlayer < 450)
             {
-                state = CrossbowmanState.Patrol;
+                state = CrossbowmanState.RangedCombat;
             }
         }
 
@@ -114,7 +126,7 @@ namespace BehaviorArises.Actors
                     meleeCombatTree.Tick(deltaTime);
                     break;
                 case CrossbowmanState.RangedCombat:
-                    meleeCombatTree.Tick(deltaTime);
+                    rangedCombatTree.Tick(deltaTime);
                     break;
             }
         }
