@@ -153,6 +153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patrolMaterial: {fileID: 2100000, guid: 2fe72e609c2ba91a7893cf37df5d641d, type: 2}
   combatMaterial: {fileID: 2100000, guid: df3773a5ec28ead49b79ec20f881af3a, type: 2}
+  stayNearPlayerRange: 9
 --- !u!114 &6286493685608843613
 MonoBehaviour:
   m_ObjectHideFlags: 0

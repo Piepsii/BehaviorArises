@@ -8,7 +8,6 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField, Range(0, 50)]
     private int damage;
     private ParticleSystem pSystem;
-    private Collider col;
     private bool hasShot;
 
     void Start()

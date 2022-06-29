@@ -14,8 +14,9 @@ namespace BehaviorArises.Actors
     public class Knight : MonoBehaviour{
 
         [SerializeField] private Material patrolMaterial, combatMaterial;
+        [SerializeField] private float stayNearPlayerRange = 2f;
 
-        private int stepsSinceLastSeenPlayer = 300;
+        private int stepsSinceLastSeenPlayer = 1000;
         private int cooldownInSteps = 90;
         private Node patrolTree, meleeCombatTree;
         private KnightState state;
@@ -53,10 +54,19 @@ namespace BehaviorArises.Actors
 
             // Combat Behavior Tree
             TurnTowardsObject turnTowardsPlayer = new TurnTowardsObject(blackboard, "player", 0.5f, 30f);
-            Attack attack = new Attack(pSystem, cooldownInSteps);
-            SetMaterial setCombatMaterial = new SetMaterial(blackboard, combatMaterial);
+
+            IsAnyPlebAlive isAnyPlebAlive = new IsAnyPlebAlive(plebs);
+            StayNearObject stayNearPlayer = new StayNearObject(blackboard, "player", stayNearPlayerRange);
+            Sequencer stayAwaySequence = new Sequencer(new List<Node> { isAnyPlebAlive, stayNearPlayer, turnTowardsPlayer });
+
             GotoPlayer gotoPlayer = new GotoPlayer(blackboard);
-            Sequencer combatRoot = new Sequencer(new List<Node> { setCombatMaterial, gotoPlayer, turnTowardsPlayer, attack });
+            Attack attack = new Attack(pSystem, cooldownInSteps);
+            Sequencer attackPlayerSequence = new Sequencer(new List<Node> { gotoPlayer, turnTowardsPlayer, attack });
+
+            SetMaterial setCombatMaterial = new SetMaterial(blackboard, combatMaterial);
+            Selector stayAwayOrAttackSelector = new Selector(new List<Node> { stayAwaySequence, attackPlayerSequence });
+
+            Sequencer combatRoot = new Sequencer(new List<Node> { setCombatMaterial, stayAwayOrAttackSelector});
             meleeCombatTree = combatRoot;
 
             // !Combat Behavior Tree
@@ -82,7 +92,7 @@ namespace BehaviorArises.Actors
 
         public void Decide()
         {
-            if(stepsSinceLastSeenPlayer < 100)
+            if(stepsSinceLastSeenPlayer < 450)
             {
                 state = KnightState.MeleeCombat;
             }
