@@ -53,7 +53,7 @@ namespace BehaviorArises.Actors
             // !Patrol Behavior Tree
 
             // Combat Behavior Tree
-            TurnTowardsObject turnTowardsPlayer = new TurnTowardsObject(blackboard, "player", 0.5f, 30f);
+            TurnTowardsObject turnTowardsPlayer = new TurnTowardsObject(blackboard, "player", 0.8f, 20f);
             Attack attack = new Attack(pSystem, cooldownInSteps);
             SetMaterial setCombatMaterial = new SetMaterial(blackboard, combatMaterial);
             GotoPlayer gotoPlayer = new GotoPlayer(blackboard);

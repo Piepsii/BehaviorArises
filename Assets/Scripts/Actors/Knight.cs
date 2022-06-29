@@ -16,6 +16,7 @@ namespace BehaviorArises.Actors
         [SerializeField] private Material patrolMaterial, combatMaterial;
 
         private int stepsSinceLastSeenPlayer = 300;
+        private int cooldownInSteps = 90;
         private Node patrolTree, meleeCombatTree;
         private KnightState state;
         private Path path;
@@ -25,7 +26,7 @@ namespace BehaviorArises.Actors
         private Dictionary<string, GameObject> blackboard;
         private Dictionary<string, int> blackboardInt;
 
-        public void Build()
+        public void Build(GameObject[] plebs)
         {
             blackboard = new Dictionary<string, GameObject>();
             blackboard.Add("gameObject", gameObject);
@@ -49,11 +50,23 @@ namespace BehaviorArises.Actors
             patrolTree = patrolRoot;
 
             // !Patrol Behavior Tree
+
+            // Combat Behavior Tree
+            TurnTowardsObject turnTowardsPlayer = new TurnTowardsObject(blackboard, "player", 0.5f, 30f);
+            Attack attack = new Attack(pSystem, cooldownInSteps);
+            SetMaterial setCombatMaterial = new SetMaterial(blackboard, combatMaterial);
+            GotoPlayer gotoPlayer = new GotoPlayer(blackboard);
+            Sequencer combatRoot = new Sequencer(new List<Node> { setCombatMaterial, gotoPlayer, turnTowardsPlayer, attack });
+            meleeCombatTree = combatRoot;
+
+            // !Combat Behavior Tree
         }
 
         public void Sense()
         {
             var player = GameObject.FindWithTag("Player");
+            if (blackboard.ContainsKey("player"))
+                blackboard["player"] = player;
             var playerCollider = player.GetComponent<Collider>();
             Plane[] planes;
             planes = GeometryUtility.CalculateFrustumPlanes(cam);
@@ -87,7 +100,7 @@ namespace BehaviorArises.Actors
                     patrolTree.Tick(deltaTime);
                     break;
                 case KnightState.MeleeCombat:
-
+                    meleeCombatTree.Tick(deltaTime);
                     break;
             }
         }

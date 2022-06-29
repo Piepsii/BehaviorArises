@@ -62,7 +62,12 @@ namespace BehaviorArises{
                     path = instantiatedKnight.AddComponent<Path>();
                 }
                 path.waypoints = waypoints;
-                knight.Build();
+                GameObject[] plebGOs = new GameObject[plebs.Count];
+                for(int j = 0; j < plebs.Count; j++)
+                {
+                    plebGOs[j] = plebs[j].gameObject;
+                }
+                knight.Build(plebGOs);
                 knights.Add(knight);
             }
         }   

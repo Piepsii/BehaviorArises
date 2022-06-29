@@ -8,7 +8,7 @@ namespace BehaviorArises.BehaviorTree
     {
         private float leeway = 5f;
         private float distance;
-        private Vector3 playerPosition;
+        private Vector3 playerPos;
         private Transform actor;
         private NavMeshAgent agent;
         private Dictionary<string, GameObject> blackboard;
@@ -23,11 +23,11 @@ namespace BehaviorArises.BehaviorTree
 
         public override NodeState Tick(float deltaTime)
         {
-            playerPosition = blackboard["player"].transform.position;
-            var distanceVec = playerPosition - actor.position;
+            playerPos = blackboard["player"].transform.position;
+            var distanceVec = playerPos - actor.position;
             distance = distanceVec.magnitude;
-            agent.SetDestination(playerPosition);
-            if (Vector3.Distance(agent.pathEndPosition, playerPosition) >= 1f)
+            agent.SetDestination(playerPos);
+            if (Vector3.Distance(agent.pathEndPosition, playerPos) >= 1f)
             {
                 return NodeState.Failure;
             }
@@ -38,8 +38,8 @@ namespace BehaviorArises.BehaviorTree
             }
             else
             {
-                if (agent.destination != playerPosition)
-                    agent.SetDestination(playerPosition);
+                if (agent.destination != playerPos)
+                    agent.SetDestination(playerPos);
                 return NodeState.Running;
             }
         }
