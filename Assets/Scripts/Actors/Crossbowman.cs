@@ -80,7 +80,7 @@ namespace BehaviorArises.Actors
             SetMaterial setRangedCombatMaterial = new SetMaterial(blackboard, rangedMaterial);
             Wait reload = new Wait(reloadTime);
 
-            TurnTowardsObject turnTowardsPlayer = new TurnTowardsObject(blackboard, "player", 1.5f, 10f);
+            TurnTowardsObject turnTowardsPlayer = new TurnTowardsObject(blackboard, "player", 1.5f, 20f);
             Shoot shootBolt = new Shoot(blackboard);
             Sequencer rangedCombatRoot = new Sequencer(new List<Node> { setRangedCombatMaterial, isNotNearPlayer, turnTowardsPlayer, reload, shootBolt });
             rangedCombatTree = rangedCombatRoot;
