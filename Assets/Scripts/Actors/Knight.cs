@@ -15,6 +15,7 @@ namespace BehaviorArises.Actors
 
         [SerializeField] private Material patrolMaterial, combatMaterial;
         [SerializeField] private float stayNearPlayerRange = 2f;
+        [SerializeField] private float startleTime = 1f;
 
         private int stepsSinceLastSeenPlayer = 1000;
         private int cooldownInSteps = 90;
@@ -39,13 +40,17 @@ namespace BehaviorArises.Actors
             cam = GetComponent<Camera>();
             pSystem = GetComponent<ParticleSystem>();
 
+            // General Nodes
+            WaitOnce startle = new WaitOnce(startleTime);
+            ResetWaitOnce resetStartle = new ResetWaitOnce(startle);
+
             // Patrol Behavior Tree
 
             SetMaterial setPatrolMaterial = new SetMaterial(blackboard, patrolMaterial);
             GotoNextWaypoint setDestination = new GotoNextWaypoint(blackboard);
             IsNearWaypoint isNearWaypoint = new IsNearWaypoint(blackboard, 2f);
             SetNextWaypointActive setNextWaypointActive = new SetNextWaypointActive(path);
-            Sequencer setMaterialGotoWaypoint = new Sequencer(new List<Node> { setPatrolMaterial, setDestination });
+            Sequencer setMaterialGotoWaypoint = new Sequencer(new List<Node> { resetStartle, setPatrolMaterial, setDestination });
             Sequencer setWaypointAtArrival = new Sequencer(new List<Node> { isNearWaypoint, setNextWaypointActive });
             Selector patrolRoot = new Selector(new List<Node> { setWaypointAtArrival, setMaterialGotoWaypoint });
             patrolTree = patrolRoot;
@@ -53,6 +58,7 @@ namespace BehaviorArises.Actors
             // !Patrol Behavior Tree
 
             // Combat Behavior Tree
+
             TurnTowardsObject turnTowardsPlayer = new TurnTowardsObject(blackboard, "player", 0.5f, 30f);
 
             IsAnyPlebAlive isAnyPlebAlive = new IsAnyPlebAlive(plebs);
@@ -66,7 +72,7 @@ namespace BehaviorArises.Actors
             SetMaterial setCombatMaterial = new SetMaterial(blackboard, combatMaterial);
             Selector stayAwayOrAttackSelector = new Selector(new List<Node> { stayAwaySequence, attackPlayerSequence });
 
-            Sequencer combatRoot = new Sequencer(new List<Node> { setCombatMaterial, stayAwayOrAttackSelector});
+            Sequencer combatRoot = new Sequencer(new List<Node> { setCombatMaterial, startle, stayAwayOrAttackSelector});
             meleeCombatTree = combatRoot;
 
             // !Combat Behavior Tree

@@ -21,7 +21,7 @@ namespace BehaviorArises.Actors
         [SerializeField] private float meleeCombatRange = 5f;
         [SerializeField] private int meleeCooldown = 180, rangedCooldown = 90;
         [SerializeField] private GameObject projectile;
-        [SerializeField] private float reloadTime = 2f;
+        [SerializeField] private float reloadTime = 2f, startleTime = 1f;
 
         private int stepsSinceLastSeenPlayer = 1000;
         private Node patrolTree, meleeCombatTree, rangedCombatTree;
@@ -45,13 +45,18 @@ namespace BehaviorArises.Actors
             path = GetComponent<Path>();
             cam = GetComponent<Camera>();
 
+
+            // General
+            WaitOnce startle = new WaitOnce(startleTime);
+            ResetWaitOnce resetStartle = new ResetWaitOnce(startle);
+            
             // Patrol Behavior Tree
 
             SetMaterial setPatrolMaterial = new SetMaterial(blackboard, patrolMaterial);
             GotoNextWaypoint setDestination = new GotoNextWaypoint(blackboard);
             IsNearWaypoint isNearWaypoint = new IsNearWaypoint(blackboard, 2f);
             SetNextWaypointActive setNextWaypointActive = new SetNextWaypointActive(path);
-            Sequencer setMaterialGotoWaypoint = new Sequencer(new List<Node> { setPatrolMaterial, setDestination });
+            Sequencer setMaterialGotoWaypoint = new Sequencer(new List<Node> { resetStartle, setPatrolMaterial, setDestination });
             Sequencer setWaypointAtArrival = new Sequencer(new List<Node> { isNearWaypoint, setNextWaypointActive });
             Selector patrolRoot = new Selector(new List<Node> { setWaypointAtArrival, setMaterialGotoWaypoint });
             patrolTree = patrolRoot;
@@ -59,6 +64,7 @@ namespace BehaviorArises.Actors
             // !Patrol Behavior Tree
 
             // Melee Combat Behavior Tree
+
 
             TurnTowardsObject turnTowardsPlayerMelee = new TurnTowardsObject(blackboard, "player", 1.0f, 25f);
 
@@ -68,21 +74,26 @@ namespace BehaviorArises.Actors
 
             SetMaterial setCombatMaterial = new SetMaterial(blackboard, meleeMaterial);
 
-            Sequencer combatRoot = new Sequencer(new List<Node> { setCombatMaterial, attackPlayerSequence });
+            Sequencer combatRoot = new Sequencer(new List<Node> { setCombatMaterial, startle, attackPlayerSequence });
             meleeCombatTree = combatRoot;
 
             // !Melee Combat Behavior Tree
 
             // Ranged Combat Behavior Tree
 
-            IsNearObject isNearPlayer = new IsNearObject(blackboard, "player", rangedCombatRange);
-            Not isNotNearPlayer = new Not(isNearPlayer);
-            SetMaterial setRangedCombatMaterial = new SetMaterial(blackboard, rangedMaterial);
-            Wait reload = new Wait(reloadTime);
-
             TurnTowardsObject turnTowardsPlayer = new TurnTowardsObject(blackboard, "player", 1.5f, 20f);
+            Wait reload = new Wait(reloadTime);
             Shoot shootBolt = new Shoot(blackboard);
-            Sequencer rangedCombatRoot = new Sequencer(new List<Node> { setRangedCombatMaterial, isNotNearPlayer, turnTowardsPlayer, reload, shootBolt });
+            Sequencer rangedAttackSequence = new Sequencer(new List<Node> { turnTowardsPlayer, reload, shootBolt });
+
+            IsNearObject isNearPlayer = new IsNearObject(blackboard, "player", rangedCombatRange);
+            StayNearObject moveAway = new StayNearObject(blackboard, "player", rangedCombatRange + 5f);
+            Sequencer moveAwaySequence = new Sequencer(new List<Node> { isNearPlayer, moveAway });
+
+            Selector distanceSelector = new Selector(new List<Node> { moveAwaySequence, rangedAttackSequence });
+
+            SetMaterial setRangedCombatMaterial = new SetMaterial(blackboard, rangedMaterial);
+            Sequencer rangedCombatRoot = new Sequencer(new List<Node> { setRangedCombatMaterial, startle, distanceSelector });
             rangedCombatTree = rangedCombatRoot;
 
             // !Ranged Combat Behavior Tree
