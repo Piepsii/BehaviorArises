@@ -68,7 +68,7 @@ namespace BehaviorArises.Actors
 
             TurnTowardsObject turnTowardsPlayerMelee = new TurnTowardsObject(blackboard, "player", 1.0f, 25f);
 
-            GotoPlayer gotoPlayer = new GotoPlayer(blackboard);
+            GotoPlayer gotoPlayer = new GotoPlayer(blackboard, meleeCombatRange - 1);
             Attack attack = new Attack(pSystemMelee, meleeCooldown);
             Sequencer attackPlayerSequence = new Sequencer(new List<Node> { gotoPlayer, turnTowardsPlayerMelee, attack });
 

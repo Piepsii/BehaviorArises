@@ -13,9 +13,11 @@ namespace BehaviorArises.Actors
 
     public class Knight : MonoBehaviour{
 
-        [SerializeField] private Material patrolMaterial, combatMaterial;
-        [SerializeField] private float stayNearPlayerRange = 2f;
-        [SerializeField] private float startleTime = 1f;
+        public Material patrolMaterial, combatMaterial;
+        public float stayNearPlayerRange = 2f;
+        public float startleTime = 1f;
+        public float gotoPlayerLeeway = 3.1f;
+        public float combatRange = 3f;
 
         private int stepsSinceLastSeenPlayer = 1000;
         private int cooldownInSteps = 90;
@@ -59,18 +61,21 @@ namespace BehaviorArises.Actors
 
             // Combat Behavior Tree
 
-            TurnTowardsObject turnTowardsPlayer = new TurnTowardsObject(blackboard, "player", 0.5f, 30f);
+            TurnTowardsObject turnTowardsPlayer = new TurnTowardsObject(blackboard, "player", 0.5f, 40f);
 
             IsAnyPlebAlive isAnyPlebAlive = new IsAnyPlebAlive(plebs);
             StayNearObject stayNearPlayer = new StayNearObject(blackboard, "player", stayNearPlayerRange);
             Sequencer stayAwaySequence = new Sequencer(new List<Node> { isAnyPlebAlive, stayNearPlayer, turnTowardsPlayer });
 
-            GotoPlayer gotoPlayer = new GotoPlayer(blackboard);
+            IsNearObject isNearPlayer = new IsNearObject(blackboard, "player", combatRange);
             Attack attack = new Attack(pSystem, cooldownInSteps);
-            Sequencer attackPlayerSequence = new Sequencer(new List<Node> { gotoPlayer, turnTowardsPlayer, attack });
+            Sequencer attackSequence = new Sequencer(new List<Node> { isNearPlayer, turnTowardsPlayer, attack });
+
+            GotoPlayer gotoPlayer = new GotoPlayer(blackboard, gotoPlayerLeeway);
+            Selector goToPlayerAndAttack = new Selector(new List<Node> { attackSequence, gotoPlayer });
 
             SetMaterial setCombatMaterial = new SetMaterial(blackboard, combatMaterial);
-            Selector stayAwayOrAttackSelector = new Selector(new List<Node> { stayAwaySequence, attackPlayerSequence });
+            Selector stayAwayOrAttackSelector = new Selector(new List<Node> { stayAwaySequence, goToPlayerAndAttack });
 
             Sequencer combatRoot = new Sequencer(new List<Node> { setCombatMaterial, startle, stayAwayOrAttackSelector});
             meleeCombatTree = combatRoot;

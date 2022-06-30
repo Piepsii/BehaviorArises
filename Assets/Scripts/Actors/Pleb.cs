@@ -16,6 +16,7 @@ namespace BehaviorArises.Actors
         public Material patrolMaterial;
         public Material combatMaterial;
         public float gotoPlayerLeeway = 2f;
+        public float combatRange = 3f;
 
         private Path path;
         private Camera cam;
@@ -54,11 +55,17 @@ namespace BehaviorArises.Actors
             // !Patrol Behavior Tree
 
             // Combat Behavior Tree
-            Attack attack = new Attack(pSystem, cooldownInSteps);
+
+            IsNearObject isNearPlayer = new IsNearObject(blackboard, "player", combatRange);
             TurnTowardsObject turnTowardsPlayer = new TurnTowardsObject(blackboard, "player", 0.8f, 30f);
-            SetMaterial setCombatMaterial = new SetMaterial(blackboard, combatMaterial);
+            Attack attack = new Attack(pSystem, cooldownInSteps);
+            Sequencer attackSequence = new Sequencer(new List<Node> { isNearPlayer, turnTowardsPlayer, attack });
+
             GotoPlayer gotoPlayer = new GotoPlayer(blackboard, gotoPlayerLeeway);
-            Sequencer combatRoot = new Sequencer(new List<Node> { setCombatMaterial, gotoPlayer, turnTowardsPlayer, attack });
+            Selector goToPlayerAndAttack = new Selector(new List<Node> { attackSequence, gotoPlayer});
+
+            SetMaterial setCombatMaterial = new SetMaterial(blackboard, combatMaterial);
+            Sequencer combatRoot = new Sequencer(new List<Node> { setCombatMaterial, goToPlayerAndAttack });
             meleeCombatTree = combatRoot;
 
             // !Combat Behavior Tree

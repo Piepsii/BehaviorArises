@@ -549,6 +549,7 @@ MonoBehaviour:
   patrolMaterial: {fileID: 2100000, guid: 7456ea35e05acb44b90c3e00d371705e, type: 2}
   combatMaterial: {fileID: 2100000, guid: 2972bea99b3960f42b86adbc702940eb, type: 2}
   gotoPlayerLeeway: 3
+  combatRange: 4
 --- !u!114 &5118259127247529916
 MonoBehaviour:
   m_ObjectHideFlags: 0
