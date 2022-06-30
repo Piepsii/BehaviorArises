@@ -7,9 +7,7 @@ A behaviour tree is a mathematical model for GOAP (goal oriented action planning
 The agents that I chose to model are all based on "Elden Ring" (2022, "From Software") and will interact with a player character.
 
 Agents: 
-<div style="width:60px; height:60px">
-![Pleb Image](/readme/Pleb.PNG "Pleb")
-</div>
+![Pleb Image](/readme/Pleb.PNG?raw=true "Pleb")
 ![Pleb (Elden Ring) Image](/readme/Pleb_ER.PNG?raw=true "Pleb")
 
 1. Pleb
