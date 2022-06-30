@@ -15,8 +15,8 @@ namespace BehaviorArises.Actors
 
         public Material patrolMaterial;
         public Material combatMaterial;
-        public float gotoPlayerLeeway = 2f;
-        public float combatRange = 3f;
+        private float gotoPlayerLeeway = 2f;
+        private float combatRange = 3f;
 
         private Path path;
         private Camera cam;
@@ -45,7 +45,6 @@ namespace BehaviorArises.Actors
             SetMaterial setPatrolMaterial = new SetMaterial(blackboard, patrolMaterial);
             GotoNextWaypoint setDestination = new GotoNextWaypoint(blackboard);
             IsNearWaypoint isNearWaypoint = new IsNearWaypoint(blackboard, 2f);
-            //SetBlackboardEntry setNextWaypoint = new SetBlackboardEntry(blackboard, "waypoint", waypoint1.gameObject);
             SetNextWaypointActive setNextWaypointActive = new SetNextWaypointActive(path);
             Sequencer materialLogAndGoToWaypoint = new Sequencer(new List<Node> { setPatrolMaterial, setDestination });
             Sequencer setWaypointAtArrival = new Sequencer(new List<Node> { isNearWaypoint, setNextWaypointActive });

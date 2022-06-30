@@ -14,10 +14,11 @@ namespace BehaviorArises.Actors
     public class Knight : MonoBehaviour{
 
         public Material patrolMaterial, combatMaterial;
-        public float stayNearPlayerRange = 2f;
-        public float startleTime = 1f;
-        public float gotoPlayerLeeway = 3.1f;
-        public float combatRange = 3f;
+
+        private float stayNearPlayerRange = 7f;
+        private float startleTime = 1f;
+        private float gotoPlayerLeeway = 3.1f;
+        private float combatRange = 3f;
 
         private int stepsSinceLastSeenPlayer = 1000;
         private int cooldownInSteps = 90;

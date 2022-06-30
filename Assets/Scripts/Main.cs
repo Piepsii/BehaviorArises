@@ -9,13 +9,6 @@ namespace BehaviorArises{
 
         public List<Transform> waypoints;
 
-        public int senseDecideFrequency = 10;
-        private int senseDecideCounter = 0;
-
-        public int plebAmount;
-        public int knightAmount;
-        public int crossbowmanAmount;
-
         public Transform plebSpawnpoint;
         public Transform knightSpawnpoint;
         public Transform crossbowmanSpawnpoint;
@@ -23,6 +16,13 @@ namespace BehaviorArises{
         public GameObject plebPrefab;
         public GameObject knightPrefab;
         public GameObject crossbowmanPrefab;
+
+        private int senseDecideFrequency = 10;
+        private int senseDecideCounter = 0;
+
+        private int plebAmount = 2;
+        private int knightAmount = 1;
+        private int crossbowmanAmount = 1;
 
         private List<Pleb> plebs;
         private List<Knight> knights;

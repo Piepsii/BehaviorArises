@@ -17,11 +17,12 @@ namespace BehaviorArises.Actors
 
         [SerializeField] private ParticleSystem pSystemMelee;
         [SerializeField] private Material patrolMaterial, meleeMaterial, rangedMaterial;
-        [SerializeField] private float rangedCombatRange = 10f;
-        [SerializeField] private float meleeCombatRange = 5f;
-        [SerializeField] private int meleeCooldown = 180, rangedCooldown = 90;
         [SerializeField] private GameObject projectile;
-        [SerializeField] private float reloadTime = 2f, startleTime = 1f;
+
+        private float rangedCombatRange = 15;
+        private float meleeCombatRange = 5f;
+        private int meleeCooldown = 180, rangedCooldown = 90;
+        private float reloadTime = 2f, startleTime = 1f;
 
         private int stepsSinceLastSeenPlayer = 1000;
         private Node patrolTree, meleeCombatTree, rangedCombatTree;
