@@ -4988,7 +4988,7 @@ GameObject:
   - component: {fileID: 4879544695157426797}
   m_Layer: 7
   m_Name: Crossbowman
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5090,7 +5090,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pSystemMelee: {fileID: 62791664441494680}
-  pSystemRanged: {fileID: 8659002310705868126}
   patrolMaterial: {fileID: 2100000, guid: eb1763efa797aa603b9e9911d6cb60c6, type: 2}
   meleeMaterial: {fileID: 2100000, guid: 7bbf9d74fa4e85547b4b3d8cf43f5e3f, type: 2}
   rangedMaterial: {fileID: 2100000, guid: 67854aa0213f00344b673c973f3c25fe, type: 2}
@@ -5099,6 +5098,7 @@ MonoBehaviour:
   meleeCooldown: 180
   rangedCooldown: 90
   projectile: {fileID: 7697113355973541773, guid: 69402f52bf2c5734bab4735700f943a1, type: 3}
+  reloadTime: 2
 --- !u!114 &8108422216735271009
 MonoBehaviour:
   m_ObjectHideFlags: 0
