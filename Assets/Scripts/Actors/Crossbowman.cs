@@ -15,11 +15,13 @@ namespace BehaviorArises.Actors
     public class Crossbowman : MonoBehaviour
     {
 
-        [SerializeField] private ParticleSystem pSystemMelee, pSystemRanged;
+        [SerializeField] private ParticleSystem pSystemMelee;
         [SerializeField] private Material patrolMaterial, meleeMaterial, rangedMaterial;
         [SerializeField] private float rangedCombatRange = 10f;
         [SerializeField] private float meleeCombatRange = 5f;
         [SerializeField] private int meleeCooldown = 180, rangedCooldown = 90;
+        [SerializeField] private GameObject projectile;
+        [SerializeField] private float reloadTime = 2f;
 
         private int stepsSinceLastSeenPlayer = 1000;
         private Node patrolTree, meleeCombatTree, rangedCombatTree;
@@ -35,6 +37,8 @@ namespace BehaviorArises.Actors
             blackboard = new Dictionary<string, GameObject>();
             blackboard.Add("gameObject", gameObject);
             blackboard.Add("player", null);
+            blackboard.Add("projectile", projectile);
+
             blackboardInt = new Dictionary<string, int>();
             blackboardInt.Add("stepsSinceLastSeenPlayer", 0);
             agent = GetComponent<NavMeshAgent>();
@@ -71,11 +75,14 @@ namespace BehaviorArises.Actors
 
             // Ranged Combat Behavior Tree
 
+            IsNearObject isNearPlayer = new IsNearObject(blackboard, "player", rangedCombatRange);
+            Not isNotNearPlayer = new Not(isNearPlayer);
             SetMaterial setRangedCombatMaterial = new SetMaterial(blackboard, rangedMaterial);
-            StayNearObject stayAtRange = new StayNearObject(blackboard, "player", rangedCombatRange);
+            Wait reload = new Wait(reloadTime);
+
             TurnTowardsObject turnTowardsPlayer = new TurnTowardsObject(blackboard, "player", 1.5f, 10f);
-            Attack rangedAttack = new Attack(pSystemRanged, rangedCooldown);
-            Sequencer rangedCombatRoot = new Sequencer(new List<Node> { setRangedCombatMaterial, stayAtRange, turnTowardsPlayer, rangedAttack });
+            Shoot shootBolt = new Shoot(blackboard);
+            Sequencer rangedCombatRoot = new Sequencer(new List<Node> { setRangedCombatMaterial, isNotNearPlayer, turnTowardsPlayer, reload, shootBolt });
             rangedCombatTree = rangedCombatRoot;
 
             // !Ranged Combat Behavior Tree

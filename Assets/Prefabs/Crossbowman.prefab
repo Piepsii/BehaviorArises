@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5014215295641433670}
   - component: {fileID: 7100801668066959354}
   - component: {fileID: 2365270042239633736}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Goggles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 5748143897050174182}
   - component: {fileID: 1818199404551673792}
   - component: {fileID: 62791664441494680}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Melee Attack Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4986,7 +4986,7 @@ GameObject:
   - component: {fileID: 9013907633168992834}
   - component: {fileID: 6005857028050660345}
   - component: {fileID: 4879544695157426797}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Crossbowman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5098,6 +5098,7 @@ MonoBehaviour:
   meleeCombatRange: 5
   meleeCooldown: 180
   rangedCooldown: 90
+  projectile: {fileID: 7697113355973541773, guid: 69402f52bf2c5734bab4735700f943a1, type: 3}
 --- !u!114 &8108422216735271009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10025,7 +10026,7 @@ GameObject:
   - component: {fileID: 5958541842245133782}
   - component: {fileID: 4581896968293550292}
   - component: {fileID: 2127914423383274647}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bolt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10121,7 +10122,7 @@ GameObject:
   - component: {fileID: 1152026216495904311}
   - component: {fileID: 8659002310705868126}
   - component: {fileID: 1112574958022978448}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ranged Attack Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14993,7 +14994,7 @@ GameObject:
   - component: {fileID: 7040000239080043021}
   - component: {fileID: 5216664883588731775}
   - component: {fileID: 7715422138899345275}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Crossbow
   m_TagString: Untagged
   m_Icon: {fileID: 0}

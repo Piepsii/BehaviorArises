@@ -36,13 +36,11 @@ namespace BehaviorArises.BehaviorTree
             agent.SetDestination(goalPos);
             if(Vector3.Distance(agent.pathEndPosition, goalPos) >= 3f)
             {
-                Debug.Log("StayNearObject: Failed");
                 return NodeState.Failure;
             }
             else if(distance <= leeway)
             {
                 agent.ResetPath();
-                Debug.Log("StayNearObject: Success");
                 return NodeState.Success;
             }
             else
@@ -51,7 +49,6 @@ namespace BehaviorArises.BehaviorTree
                 {
                     agent.SetDestination(goalPos);
                 }
-                Debug.Log("StayNearObject: Running");
                 return NodeState.Running;
             }
         }
