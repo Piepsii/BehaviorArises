@@ -8,7 +8,7 @@ The agents that I chose to model are all based on "Elden Ring" (2022, "From Soft
 
 Agents: 
 
-![Pleb Image](/BehaviourArises/readme/Pleb.png?raw=true "Pleb")
+![Pleb Image](/BehaviourArises/readme/Pleb.PNG?raw=true "Pleb")
 ![Pleb (Elden Ring) Image](/BehaviourArises/readme/Pleb_ER.png?raw=true "Pleb")
 1. Pleb
 The pleb is an unarmored enemy with a short sword.
