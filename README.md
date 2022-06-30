@@ -7,6 +7,7 @@ A behaviour tree is a mathematical model for GOAP (goal oriented action planning
 The agents that I chose to model are all based on "Elden Ring" (2022, "From Software") and will interact with a player character.
 
 Agents: 
+
 ![Pleb Image](/readme/Pleb.PNG?raw=true "Pleb")
 ![Pleb (Elden Ring) Image](/readme/Pleb_ER.PNG?raw=true "Pleb")
 
@@ -17,6 +18,7 @@ They will charge towards the player on sight.
 
 ![Knight Image](/readme/Knight.PNG?raw=true "Knight")
 ![Knight (Elden Ring) Image](/readme/Knight_ER.PNG?raw=true "Knight")
+
 2. Knight
 The knight is an armored enemy with sword and shield. 
 They will patrol an area until they see an enemy upon which combat ensues.
@@ -24,6 +26,7 @@ They will head towards the player to engage close combat.
 
 ![Crossbowman Image](/readme/Crossbowman.PNG?raw=true "Crossbowman")
 ![Crossbowman (Elden Ring) Image](/readme/Crossbowman_ER.PNG?raw=true "Crossbowman")
+
 3. Crossbowman
 The crossbow knight is an armored enemy with sword, shield and crossbow.
 They will patrol an area until they see an enemy upon which combat ensues.
