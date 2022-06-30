@@ -10,7 +10,7 @@ Agents:
 <div style="width:60px ; height:60px">
 ![Pleb Image](/readme/Pleb.PNG?raw=true "Pleb")
 ![Pleb (Elden Ring) Image](/readme/Pleb_ER.PNG?raw=true "Pleb")
-<div>
+</div>
 1. Pleb
 The pleb is an unarmored enemy with a short sword.
 They will patrol an area until they see an enemy upon which combat ensues.
