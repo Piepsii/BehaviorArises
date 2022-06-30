@@ -8,7 +8,7 @@ The agents that I chose to model are all based on "Elden Ring" (2022, "From Soft
 
 Agents: 
 <div style="width:60px; height:60px">
-![Pleb Image](/readme/Pleb.PNG?raw=true "Pleb")
+![Pleb Image](/readme/Pleb.PNG "Pleb")
 </div>
 ![Pleb (Elden Ring) Image](/readme/Pleb_ER.PNG?raw=true "Pleb")
 
